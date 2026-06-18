@@ -1,0 +1,39 @@
+name: edu_prediction
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  image_picker:
+  video_player:
+  lottie:
+  flutter_easyloading:
+  bot_toast:
+  flutter_tts:
+  just_audio:
+  http: ^1.2.1
+  shared_preferences: ^2.3.2
+  dio: ^5.7.0
+  cloud_firestore: ^5.4.4
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  smooth_page_indicator: ^1.2.0+3
+  path_provider: ^2.1.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/assets/
+    - assets/videos/
