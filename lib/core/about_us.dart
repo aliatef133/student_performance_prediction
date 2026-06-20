@@ -118,7 +118,6 @@ class _AboutUsState extends State<AboutUs> {
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.setString('user_name', controller.text);
                       await prefs.setString('user_image', tempImage);
-
                       setState(() {
                         name = controller.text;
                         selectedImage = tempImage;
@@ -191,7 +190,6 @@ class _AboutUsState extends State<AboutUs> {
                 ],
               ),
               const SizedBox(height: 25),
-
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
@@ -223,7 +221,6 @@ class _AboutUsState extends State<AboutUs> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
               Row(
                 children: [
