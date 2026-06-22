@@ -486,10 +486,8 @@ class _Quiz1State extends State<Quiz1> {
     final selected = answers[q.id] == value;
     return GestureDetector(
       onTap: () => setState(() => answers[q.id] = value),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding:
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
         decoration: BoxDecoration(
           color: selected ? Colors.white : Colors.white.withOpacity(0.15),
           borderRadius: BorderRadius.circular(16),
@@ -497,6 +495,14 @@ class _Quiz1State extends State<Quiz1> {
             color: selected ? Colors.white : Colors.white.withOpacity(0.3),
             width: selected ? 2 : 1,
           ),
+          boxShadow: selected
+              ? [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                blurRadius: 12,
+                offset: const Offset(0, 4))
+          ]
+              : [],
         ),
         child: Row(children: [
           Container(
@@ -555,7 +561,6 @@ class _Quiz1State extends State<Quiz1> {
         child: SafeArea(
           child: Column(
             children: [
-              // Header
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: Row(children: [
@@ -593,7 +598,6 @@ class _Quiz1State extends State<Quiz1> {
               ),
               const SizedBox(height: 16),
 
-              // Title
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(children: [
@@ -1280,81 +1284,86 @@ class _Quiz1State extends State<Quiz1> {
                           ),
                         ]),
                   ),
-                  if (recommendations != null &&
-                      recommendations.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding:
-                              EdgeInsets.fromLTRB(16, 16, 16, 8),
-                              child: Text(
-                                'Recommendations',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF4F46E5),
-                                ),
+                  const SizedBox(height: 16),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding:
+                            EdgeInsets.fromLTRB(16, 16, 16, 8),
+                            child: Text(
+                              'Recommendations for All Questions',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF4F46E5),
                               ),
                             ),
-                            ...recommendations.map((rec) => Column(
-                                children: [
-                                  const Divider(
-                                      height: 1,
-                                      color: Color(0xFFEEEEEE)),
-                                  Padding(
-                                    padding: const EdgeInsets.all(14),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            rec['question']
-                                                ?.toString() ??
-                                                '',
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                          ),
+                          ...questions.map((q) {
+                            final apiRec = recommendations?.firstWhere(
+                                  (rec) => rec['question'] == q.displayText,
+                              orElse: () => null,
+                            );
+                            final yourAnswer = answers[q.id] ?? 'Not answered';
+                            final recommendedAnswer = apiRec?['recommended_answer']?.toString() ?? 'No specific recommendation.';
+
+                            return Column(
+                              children: [
+                                const Divider(
+                                    height: 1,
+                                    color: Color(0xFFEEEEEE)),
+                                Padding(
+                                  padding: const EdgeInsets.all(14),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          q.displayText,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w600,
                                           ),
-                                          const SizedBox(height: 8),
-                                          Row(children: [
-                                            const Icon(Icons.close,
-                                                color: Colors.red,
-                                                size: 16),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              'Your answer: ${rec['your_answer']}',
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.red),
-                                            ),
-                                          ]),
-                                          const SizedBox(height: 4),
-                                          Row(children: [
-                                            const Icon(Icons.check,
-                                                color: Colors.green,
-                                                size: 16),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              'Recommended: ${rec['recommended_answer']}',
-                                              style: const TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.green),
-                                            ),
-                                          ]),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(children: [
+                                          const Icon(Icons.close,
+                                              color: Colors.red,
+                                              size: 16),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            'Your answer: $yourAnswer',
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.red),
+                                          ),
                                         ]),
-                                  ),
-                                ])),
-                          ]),
-                    ),
-                  ],
+                                        const SizedBox(height: 4),
+                                        Row(children: [
+                                          const Icon(Icons.check,
+                                              color: Colors.green,
+                                              size: 16),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            'Recommended: $recommendedAnswer',
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.green),
+                                          ),
+                                        ]),
+                                      ]),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ]),
+                  ),
                   const SizedBox(height: 24),
                   GestureDetector(
                     onTap: () {
